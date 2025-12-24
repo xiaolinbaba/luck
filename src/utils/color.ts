@@ -40,32 +40,38 @@ export function rgba(color: string, opacity: number) {
   return rgbaStr
 }
 
-export function rgbToHex(color:string) {
-   // 去掉字符串中的空格
-   color = color.replace(/\s+/g, '');
+export function rgbToHex(color: string) {
+  // 支持 rgb(r,g,b) / rgba(r,g,b,a)
+  const normalized = color.replaceAll(/\s+/g, '').toLowerCase()
+  const isRgba = normalized.startsWith('rgba(') && normalized.endsWith(')')
+  const isRgb = normalized.startsWith('rgb(') && normalized.endsWith(')')
+  if (!isRgb && !isRgba) {
+    throw new Error('Invalid color format')
+  }
 
-   // 匹配rgba或rgb格式的字符串
-   const rgbaMatch = color.match(/^rgba?\((\d+),(\d+),(\d+),?(\d*\.?\d+)?\)$/i);
-   if (!rgbaMatch) {
-       throw new Error('Invalid color format');
-   }
+  const inside = normalized.slice(isRgba ? 5 : 4, -1)
+  const parts = inside.split(',')
+  if (parts.length !== 3 && parts.length !== 4) {
+    throw new Error('Invalid color format')
+  }
 
-   const r = parseInt(rgbaMatch[1], 10);
-   const g = parseInt(rgbaMatch[2], 10);
-   const b = parseInt(rgbaMatch[3], 10);
-   const a = rgbaMatch[4] !== undefined ? parseFloat(rgbaMatch[4]) : undefined;
+  const r = Number.parseInt(parts[0], 10)
+  const g = Number.parseInt(parts[1], 10)
+  const b = Number.parseInt(parts[2], 10)
+  const a = parts[3] !== undefined ? Number.parseFloat(parts[3]) : undefined
+  if ([r, g, b].some(n => Number.isNaN(n))) {
+    throw new Error('Invalid color format')
+  }
 
-   // 将RGB值转换为十六进制
-   let hex = "#" + ((1 << 24) + (r << 16) + (g << 8) + b).toString(16).slice(1).toUpperCase();
+  // 将 RGB 值转换为十六进制
+  let hex = `#${((1 << 24) + (r << 16) + (g << 8) + b).toString(16).slice(1).toUpperCase()}`
 
-   // 如果提供了alpha值，则将其转换为十六进制并附加到结果中
-   if (a !== undefined) {
-       let alphaHex = Math.round(a * 255).toString(16).toUpperCase();
-       if (alphaHex.length === 1) {
-           alphaHex = "0" + alphaHex; // 确保alpha值是两位数
-       }
-       hex += alphaHex;
-   }
+  // 如果提供了 alpha 值，则将其转换为十六进制并附加到结果中
+  if (a !== undefined && !Number.isNaN(a)) {
+    const alpha = Math.round(a * 255)
+    const alphaHex = alpha.toString(16).padStart(2, '0').toUpperCase()
+    hex += alphaHex
+  }
 
-   return hex;
+  return hex
 }

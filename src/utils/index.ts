@@ -31,9 +31,9 @@ export function addOtherInfo(personList: any[]) {
   return personList
 }
 
-export function selectCard(cardIndexArr: number[], tableLength: number, personId: number): number {
+export function selectCard(cardIndexArr: number[], tableLength: number, _personId: number): number {
   // 随机选择卡片索引（包含最后一个索引），并避免与已选索引冲突
-  // personId 目前未参与计算，保留参数以兼容调用方
+  // _personId 目前未参与计算，保留参数以兼容调用方
   if (tableLength <= 0) {
     return 0
   }

@@ -1,18 +1,18 @@
 export interface IPersonConfig {
-    id: number;
-    uid: string;
-    name: string;
-    department: string;
-    identity: string;
-    avatar: string;
-    isWin: boolean;
-    x: number;
-    y: number
-    createTime: string;
-    updateTime: string;
-    prizeName: string[];
-    prizeId: string[];
-    prizeTime: string[];
+  id: number
+  uid: string
+  name: string
+  department: string
+  identity: string
+  avatar: string
+  isWin: boolean
+  x: number
+  y: number
+  createTime: string
+  updateTime: string
+  prizeName: string[]
+  prizeId: string[]
+  prizeTime: string[]
 }
 export interface Separate {
   id: string

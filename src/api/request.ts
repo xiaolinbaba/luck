@@ -15,14 +15,10 @@ class Request {
     this.instance.interceptors.request.use(
       (config: InternalAxiosRequestConfig) => {
         // 在发送请求之前做些什么
-        console.log('请求拦截器被触发')
-
         return config
       },
       (error: any) => {
         // 对请求错误做些什么
-        console.error('请求拦截器发生错误：', error)
-
         return Promise.reject(error)
       },
     )
@@ -31,23 +27,17 @@ class Request {
     this.instance.interceptors.response.use(
       (response: AxiosResponse) => {
         // 对响应数据做些什么
-        console.log('响应拦截器被触发')
-        const responseData = response.data
-
-        return responseData
+        return response
       },
       (error: any) => {
         // 对响应错误做些什么
-        console.error('响应拦截器发生错误：', error)
-
         return Promise.reject(error)
       },
     )
   }
 
   public async request<T>(config: AxiosRequestConfig): Promise<T> {
-    const response: AxiosResponse<T> = await this.instance.request(config)
-
+    const response = await this.instance.request<T>(config)
     return response.data
   }
 }

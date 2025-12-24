@@ -1,31 +1,25 @@
-// test axios request
-import Request from '@/api/request';
-import { describe, it, expect, vi } from 'vitest';
-import { mount, flushPromises } from '@vue/test-utils';
-import axios from 'axios';
+import { describe, expect, it, vi } from 'vitest'
 
-const fn = vi.fn();
-const mockRes = {
-  data: {
-    code: 200,
-    success: true,
-    message: 'success',
-    data: {
-      name: 'test',
-      age: 18,
+vi.mock('axios', () => {
+  const request = vi.fn(async () => ({ data: { ok: true } }))
+  const create = vi.fn(() => ({
+    interceptors: {
+      request: { use: vi.fn() },
+      response: { use: vi.fn() },
     },
-  },
-};
-fn(mockRes);
-fn.mock.calls[0] === [mockRes];
+    request,
+  }))
+  return {
+    default: { create },
+    create,
+  }
+})
 
-describe('Request', () => {
-  it('should return data when request success', async () => {
-    const request = new Request();
-    const res = await request({
-      url: '/test',
-      method: 'GET',
-    });
-    expect(res).toEqual(mockRes.data);
-  });
-});
+import request from '@/api/request'
+
+describe('api/request', () => {
+  it('should be a function and return mocked data', async () => {
+    const res = await request<{ ok: boolean }>({ url: '/test', method: 'GET' })
+    expect(res.ok).toBe(true)
+  })
+})

@@ -622,7 +622,8 @@ function randomBallData(mod: 'default' | 'lucky' | 'sphere' = 'default') {
 }
 // 监听键盘
 function listenKeyboard(e: any) {
-  if ((e.keyCode !== 32 || e.keyCode !== 27) && !canOperate.value) {
+  // 当不可操作时，仅允许空格/ESC 触发逻辑，其它按键忽略
+  if (e.keyCode !== 32 && e.keyCode !== 27 && !canOperate.value) {
     return
   }
   if (e.keyCode === 27 && currentStatus.value === 3) {

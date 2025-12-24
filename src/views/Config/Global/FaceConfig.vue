@@ -17,7 +17,7 @@ const { t } = useI18n()
 const globalConfig = useStore().globalConfig
 const personConfig = useStore().personConfig
 const prizeConfig = useStore().prizeConfig
-const { getTopTitle: topTitle, getTheme: localTheme, getPatterColor: patternColor, getPatternList: patternList, getCardColor: cardColor, getLuckyColor: luckyCardColor, getTextColor: textColor, getCardSize: cardSize, getTextSize: textSize, getRowCount: rowCount, getIsShowPrizeList: isShowPrizeList, getLanguage: userLanguage, getBackground: backgroundImage, getImageList: imageList, getIsShowAvatar: isShowAvatar
+const { getTopTitle: topTitle, getTheme: localTheme, getPatterColor: patternColor, getPatternList: patternList, getCardColor: cardColor, getLuckyColor: luckyCardColor, getTextColor: textColor, getCardSize: cardSize, getTextSize: textSize, getRowCount: rowCount, getIsShowPrizeList: isShowPrizeList, getLanguage: userLanguage, getBackground: backgroundImage, getImageList: imageList, getIsShowAvatar: isShowAvatar,
 } = storeToRefs(globalConfig)
 const { getAlreadyPersonList: alreadyPersonList, getNotPersonList: notPersonList } = storeToRefs(personConfig)
 const colorPickerRef = ref()
@@ -158,7 +158,7 @@ watch(languageValue, (val: string) => {
   globalConfig.setLanguage(val)
 })
 watch(isShowAvatarValue, () => {
-    globalConfig.setIsShowAvatar(isShowAvatarValue.value)
+  globalConfig.setIsShowAvatar(isShowAvatarValue.value)
 })
 onMounted(() => {
 })
@@ -350,11 +350,13 @@ onMounted(() => {
     </label>
 
     <label class="w-full max-w-xs mb-10 form-control">
-        <div class="label">
-            <span class="label-text">{{ t('table.avatarDisplay') }}</span>
-        </div>
-        <input type="checkbox" :checked="isShowAvatarValue" @change="isShowAvatarValue = !isShowAvatarValue"
-          class="mt-2 border-solid checkbox checkbox-secondary border-1" />
+      <div class="label">
+        <span class="label-text">{{ t('table.avatarDisplay') }}</span>
+      </div>
+      <input
+        type="checkbox" :checked="isShowAvatarValue" class="mt-2 border-solid checkbox checkbox-secondary border-1"
+        @change="isShowAvatarValue = !isShowAvatarValue"
+      >
     </label>
   </div>
 </template>
