@@ -163,10 +163,10 @@ const departmentList = [
   '审计部',
 ]
 
-// 身份列表
+// 职位列表
 const identityList = [
   '总经理',
-  '总裁',
+  '总监',
   '经理',
   '主管',
   '专员',

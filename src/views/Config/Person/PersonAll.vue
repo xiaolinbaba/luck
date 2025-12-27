@@ -6,6 +6,7 @@ import i18n from '@/locales/i18n'
 import useStore from '@/store'
 import { addOtherInfo } from '@/utils'
 import { readFileBinary } from '@/utils/file'
+import { getDefaultPersonList } from '@/store/data'
 import { storeToRefs } from 'pinia'
 import { onMounted, ref } from 'vue'
 import { useI18n } from 'vue-i18n'
@@ -37,6 +38,7 @@ function exportData() {
     delete data[i].x
     delete data[i].y
     delete data[i].id
+    delete data[i].avatar
     delete data[i].createTime
     delete data[i].updateTime
     delete data[i].prizeId
@@ -85,6 +87,28 @@ function delPersonItem(row: IPersonConfig) {
   personConfig.deletePerson(row)
 }
 
+// 下载模板，使用默认人员信息
+function downloadTemplate() {
+  // 获取默认人员列表
+  const defaultPersonList = getDefaultPersonList(50)
+  
+  // 准备导出数据，只保留需要的字段
+  const templateData = defaultPersonList.map((person) => {
+    return {
+      [i18n.global.t('data.number')]: person.uid,
+      [i18n.global.t('data.name')]: person.name,
+      [i18n.global.t('data.department')]: person.department,
+      [i18n.global.t('data.identity')]: person.identity,
+    }
+  })
+  
+  // 生成 Excel 文件
+  const worksheet = XLSX.utils.json_to_sheet(templateData)
+  const workbook = XLSX.utils.book_new()
+  XLSX.utils.book_append_sheet(workbook, worksheet, 'Sheet1')
+  XLSX.writeFile(workbook, t('data.xlsxName'))
+}
+
 const tableColumns = [
   {
     label: i18n.global.t('data.number'),
@@ -97,13 +121,6 @@ const tableColumns = [
   {
     label: i18n.global.t('data.department'),
     props: 'department',
-  },
-  {
-    label: i18n.global.t('data.avatar'),
-    props: 'avatar',
-    formatValue(row: any) {
-      return row.avatar ? `<img src="${row.avatar}" alt="avatar" style="width: 50px; height: 50px;"/>` : '-'
-    },
   },
   {
     label: i18n.global.t('data.identity'),
@@ -191,10 +208,10 @@ onMounted(() => {
         {{ t('button.allDelete') }}
       </button>
       <div class="tooltip tooltip-bottom" :data-tip="t('tooltip.downloadTemplateTip')">
-        <a
-          class="no-underline btn btn-secondary btn-sm" :download="t('data.xlsxName')" target="_blank" rel="noopener noreferrer"
-          :href="`/${t('data.xlsxName')}`"
-        >{{ t('button.downloadTemplate') }}</a>
+        <button
+          class="btn btn-secondary btn-sm"
+          @click="downloadTemplate"
+        >{{ t('button.downloadTemplate') }}</button>
       </div>
       <div class="">
         <label for="explore">

@@ -17,7 +17,7 @@ const { t } = useI18n()
 const globalConfig = useStore().globalConfig
 const personConfig = useStore().personConfig
 const prizeConfig = useStore().prizeConfig
-const { getTopTitle: topTitle, getTheme: localTheme, getPatterColor: patternColor, getPatternList: patternList, getCardColor: cardColor, getLuckyColor: luckyCardColor, getTextColor: textColor, getCardSize: cardSize, getTextSize: textSize, getRowCount: rowCount, getIsShowPrizeList: isShowPrizeList, getLanguage: userLanguage, getBackground: backgroundImage, getImageList: imageList, getIsShowAvatar: isShowAvatar,
+const { getTopTitle: topTitle, getTheme: localTheme, getPatterColor: patternColor, getPatternList: patternList, getCardColor: cardColor, getLuckyColor: luckyCardColor, getTextColor: textColor, getCardSize: cardSize, getTextSize: textSize, getRowCount: rowCount, getIsShowPrizeList: isShowPrizeList, getLanguage: userLanguage, getBackground: backgroundImage, getImageList: imageList,
 } = storeToRefs(globalConfig)
 const { getAlreadyPersonList: alreadyPersonList, getNotPersonList: notPersonList } = storeToRefs(personConfig)
 const colorPickerRef = ref()
@@ -36,7 +36,6 @@ const textSizeValue = ref(structuredClone(textSize.value))
 const rowCountValue = ref(structuredClone(rowCount.value))
 const languageValue = ref(structuredClone(userLanguage.value))
 const isShowPrizeListValue = ref(structuredClone(isShowPrizeList.value))
-const isShowAvatarValue = ref(structuredClone(isShowAvatar.value))
 const patternColorValue = ref(structuredClone(patternColor.value))
 const themeList = ref(Object.keys(daisyuiThemes))
 const daisyuiThemeList = ref<ThemeDaType>(daisyuiThemes)
@@ -160,9 +159,6 @@ watch(backgroundImageValue, (val) => {
 })
 watch(languageValue, (val: string) => {
   globalConfig.setLanguage(val)
-})
-watch(isShowAvatarValue, () => {
-  globalConfig.setIsShowAvatar(isShowAvatarValue.value)
 })
 onMounted(() => {
 })
@@ -350,16 +346,6 @@ onMounted(() => {
       <input
         type="checkbox" :checked="isShowPrizeListValue" class="mt-2 border-solid checkbox checkbox-secondary border-1"
         @change="isShowPrizeListValue = !isShowPrizeListValue"
-      >
-    </label>
-
-    <label class="w-full max-w-xs mb-10 form-control">
-      <div class="label">
-        <span class="label-text">{{ t('table.avatarDisplay') }}</span>
-      </div>
-      <input
-        type="checkbox" :checked="isShowAvatarValue" class="mt-2 border-solid checkbox checkbox-secondary border-1"
-        @change="isShowAvatarValue = !isShowAvatarValue"
       >
     </label>
   </div>
