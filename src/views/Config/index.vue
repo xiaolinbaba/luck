@@ -1,28 +1,15 @@
 <script setup lang="ts">
-import { ref } from 'vue'
+import { computed } from 'vue'
 import { useRoute, useRouter } from 'vue-router'
 import { configRoutesChildren } from '../../router'
 
 const router = useRouter()
 const route = useRoute()
-const menuList = ref<any[]>(configRoutesChildren)
 
-function cleanMenuList(menu: any) {
-  const newList = menu
-  for (let i = 0; i < newList.length; i++) {
-    if (newList[i].children) {
-      cleanMenuList(newList[i].children)
-    }
-    if (!newList[i].meta) {
-      newList.splice(i, 1)
-      i--
-    }
-  }
-
-  return newList
-}
-
-menuList.value = cleanMenuList(menuList.value)
+// 过滤掉重定向路由，只保留有 meta 的菜单项
+const menuList = computed(() => {
+  return configRoutesChildren.filter(item => item.meta)
+})
 
 function skip(path: string) {
   router.push(path)
@@ -33,32 +20,8 @@ function skip(path: string) {
   <div class="flex min-h-[calc(100%-280px)]">
     <ul class="w-56 m-0 mr-3 min-w-56 menu bg-base-200 pt-14">
       <li v-for="item in menuList" :key="item.name">
-        <details v-if="item.children" open>
-          <summary>{{ item.meta.title }}</summary>
-          <ul>
-            <li v-for="subItem in item.children" :key="subItem.name">
-              <details v-if="subItem.children" open>
-                <summary>{{ subItem.meta!.title }}</summary>
-                <ul>
-                  <li v-for="subSubItem in subItem.children" :key="subSubItem.name">
-                    <a
-                      :style="subSubItem.name === route.name ? 'background-color:rgba(12,12,12,0.2)' : ''"
-                      @click="skip(subItem.path)"
-                    >{{
-                      subSubItem.meta!.title }}</a>
-                  </li>
-                </ul>
-              </details>
-              <a
-                v-else :style="subItem.name === route.name ? 'background-color:rgba(12,12,12,0.2)' : ''"
-                @click="skip(subItem.path)"
-              >{{
-                subItem.meta!.title }}</a>
-            </li>
-          </ul>
-        </details>
         <a
-          v-else :style="item.name === route.name ? 'background-color:rgba(12,12,12,0.2)' : ''"
+          :style="item.name === route.name ? 'background-color:rgba(12,12,12,0.2)' : ''"
           @click="skip(item.path)"
         >{{ item.meta!.title }}</a>
       </li>

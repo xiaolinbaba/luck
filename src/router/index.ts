@@ -6,44 +6,43 @@ import { createRouter, createWebHashHistory, createWebHistory } from 'vue-router
 const envMode = import.meta.env.MODE
 
 // 导出配置路由的 children，供 Config/index.vue 使用
+// 所有配置项直接显示，无分组，按指定顺序排列
 export const configRoutesChildren = [
   {
     path: '',
-    redirect: '/config/person',
+    redirect: '/config/global/face',
   },
+  // 1. 界面设置
   {
-    path: '/config/person',
-    name: 'PersonConfig',
-    component: () => import('@/views/Config/Person/PersonConfig.vue'),
+    path: '/config/global/face',
+    name: 'FaceConfig',
+    component: () => import('@/views/Config/Global/FaceConfig.vue'),
     meta: {
-      title: i18n.global.t('sidebar.personConfiguration'),
-      icon: 'person',
+      title: i18n.global.t('sidebar.viewSetting'),
+      icon: 'face',
     },
-    children: [
-      {
-        path: '',
-        redirect: '/config/person/all',
-      },
-      {
-        path: '/config/person/all',
-        name: 'AllPersonConfig',
-        component: () => import('@/views/Config/Person/PersonAll.vue'),
-        meta: {
-          title: i18n.global.t('sidebar.personList'),
-          icon: 'all',
-        },
-      },
-      {
-        path: '/config/person/already',
-        name: 'AlreadyPerson',
-        component: () => import('@/views/Config/Person/PersonAlready.vue'),
-        meta: {
-          title: i18n.global.t('sidebar.winnerList'),
-          icon: 'already',
-        },
-      },
-    ],
   },
+  // 2. 人员列表
+  {
+    path: '/config/person/all',
+    name: 'AllPersonConfig',
+    component: () => import('@/views/Config/Person/PersonAll.vue'),
+    meta: {
+      title: i18n.global.t('sidebar.personList'),
+      icon: 'all',
+    },
+  },
+  // 3. 中奖人员
+  {
+    path: '/config/person/already',
+    name: 'AlreadyPerson',
+    component: () => import('@/views/Config/Person/PersonAlready.vue'),
+    meta: {
+      title: i18n.global.t('sidebar.winnerList'),
+      icon: 'already',
+    },
+  },
+  // 4. 奖品配置
   {
     path: '/config/prize',
     name: 'PrizeConfig',
@@ -53,44 +52,27 @@ export const configRoutesChildren = [
       icon: 'prize',
     },
   },
+  // 5. 图片管理
   {
-    path: '/config/global',
-    name: 'GlobalConfig',
-    redirect: '/config/global/all',
+    path: '/config/global/image',
+    name: 'ImageConfig',
+    component: () => import('@/views/Config/Global/ImageConfig.vue'),
     meta: {
-      title: i18n.global.t('sidebar.globalSetting'),
-      icon: 'global',
+      title: i18n.global.t('sidebar.imagesManagement'),
+      icon: 'image',
     },
-    children: [
-      {
-        path: '/config/global/face',
-        name: 'FaceConfig',
-        component: () => import('@/views/Config/Global/FaceConfig.vue'),
-        meta: {
-          title: i18n.global.t('sidebar.viewSetting'),
-          icon: 'face',
-        },
-      },
-      {
-        path: '/config/global/image',
-        name: 'ImageConfig',
-        component: () => import('@/views/Config/Global/ImageConfig.vue'),
-        meta: {
-          title: i18n.global.t('sidebar.imagesManagement'),
-          icon: 'image',
-        },
-      },
-      {
-        path: '/config/global/music',
-        name: 'MusicConfig',
-        component: () => import('@/views/Config/Global/MusicConfig.vue'),
-        meta: {
-          title: i18n.global.t('sidebar.musicManagement'),
-          icon: 'music',
-        },
-      },
-    ],
   },
+  // 6. 音乐管理
+  {
+    path: '/config/global/music',
+    name: 'MusicConfig',
+    component: () => import('@/views/Config/Global/MusicConfig.vue'),
+    meta: {
+      title: i18n.global.t('sidebar.musicManagement'),
+      icon: 'music',
+    },
+  },
+  // 7. 操作说明
   {
     path: '/config/readme',
     name: 'Readme',

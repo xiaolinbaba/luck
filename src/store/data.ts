@@ -2,7 +2,9 @@ import type { IPersonConfig, IPrizeConfig } from '@/types/storeType'
 
 const originUrl = 'https://to2026.xyz'
 // 获取 Vite base 路径，用于正确访问 public 目录下的资源
-const baseUrl = import.meta.env.BASE_URL
+// 确保 baseUrl 以 / 结尾，如果没有则添加
+const baseUrl = import.meta.env.BASE_URL || '/'
+const normalizedBaseUrl = baseUrl.endsWith('/') ? baseUrl : `${baseUrl}/`
 
 // 生成随机六位数字
 function generateRandomSixDigits(): string {
@@ -316,7 +318,7 @@ export const defaultPrizeList = <IPrizeConfig[]>[
     picture: {
       id: '2',
       name: '三等奖',
-      url: `${baseUrl}images/image3.png`,
+      url: `${normalizedBaseUrl}images/image3.png`,
     },
     separateCount: {
       enable: true,
@@ -337,7 +339,7 @@ export const defaultPrizeList = <IPrizeConfig[]>[
     picture: {
       id: '1',
       name: '二等奖',
-      url: `${baseUrl}images/image2.png`,
+      url: `${normalizedBaseUrl}images/image2.png`,
     },
     separateCount: {
       enable: false,
@@ -358,7 +360,7 @@ export const defaultPrizeList = <IPrizeConfig[]>[
     picture: {
       id: '0',
       name: '一等奖',
-      url: `${baseUrl}images/image1.png`,
+      url: `${normalizedBaseUrl}images/image1.png`,
     },
     separateCount: {
       enable: false,
@@ -379,7 +381,7 @@ export const defaultPrizeList = <IPrizeConfig[]>[
     picture: {
       id: '3',
       name: '超级奖',
-      url: `${baseUrl}images/image4.png`,
+      url: `${normalizedBaseUrl}images/image4.png`,
     },
     separateCount: {
       enable: false,
@@ -400,7 +402,7 @@ export const defaultPrizeList = <IPrizeConfig[]>[
     picture: {
       id: '4',
       name: '特别奖',
-      url: `${baseUrl}images/image5.png`,
+      url: `${normalizedBaseUrl}images/image5.png`,
     },
     separateCount: {
       enable: false,
