@@ -70,10 +70,10 @@ function onPlayEnd() {
 }
 
 function enterConfig() {
-  router.push('/log-lottery/config')
+  router.push('/config')
 }
 function enterHome() {
-  router.push('/log-lottery')
+  router.push('/home')
 }
 
 const isFullscreen = ref(false)
