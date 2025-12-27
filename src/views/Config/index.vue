@@ -1,11 +1,11 @@
 <script setup lang="ts">
 import { ref } from 'vue'
 import { useRoute, useRouter } from 'vue-router'
-import { configRoutes } from '../../router'
+import { configRoutesChildren } from '../../router'
 
 const router = useRouter()
 const route = useRoute()
-const menuList = ref<any[]>(configRoutes.children)
+const menuList = ref<any[]>(configRoutesChildren)
 
 function cleanMenuList(menu: any) {
   const newList = menu
