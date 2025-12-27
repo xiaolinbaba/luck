@@ -1,0 +1,6 @@
+# Cloudflare Pages 重定向规则
+# 用于支持 Vue Router 的 history 模式
+# 将所有请求重定向到 index.html，让 Vue Router 处理路由
+
+/*    /index.html   200
+
